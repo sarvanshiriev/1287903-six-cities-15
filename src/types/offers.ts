@@ -1,4 +1,4 @@
-type Offer = {
+export type Offer = {
   id: string;
   title: string;
   type: string;
@@ -29,6 +29,7 @@ type Offer = {
   };
   images: string[];
   maxAdults: number;
+  previewImage: string;
   }
 
 export type Offers = Offer[];

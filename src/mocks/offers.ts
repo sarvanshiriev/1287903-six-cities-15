@@ -22,6 +22,7 @@ export const offers: Offers = [
     isFavorite: true,
     isPremium: false,
     rating: 3,
+    previewImage: 'img/room.jpg',
     description: 'Est. Pellentesque est. Amet imperdiet vel mattis vel odio. Efficitu.',
     bedrooms: 1,
     goods: [
@@ -50,6 +51,7 @@ export const offers: Offers = [
     rating: 5,
     bedrooms: 3,
     maxAdults: 4,
+    previewImage: 'img/house.jpg',
     description: 'Sapien habitasse amet, mattis vitae dapibus cras mattis in orci.',
     images: [
       'img/house.jpg',
@@ -95,6 +97,7 @@ export const offers: Offers = [
     rating: 4,
     bedrooms: 2,
     maxAdults: 2,
+    previewImage: 'img/hotel.jpg',
     description: 'Tortor, velit ultricies. Ornare augue accumsan elit. Malesuada integer pellentesqu.',
     images: [
       'img/hotel.jpg',
@@ -136,6 +139,7 @@ export const offers: Offers = [
     rating: 4,
     bedrooms: 2,
     maxAdults: 3,
+    previewImage: 'img/apartment.jpg',
     description: 'Arcu eget vel mollis sit habitasse venenatis platea morbi molestie.',
     images: [
       'img/apartment.jpg',
