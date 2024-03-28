@@ -96,7 +96,7 @@ function FavotitesPage({ offers }: FavoritesPageProps): JSX.Element {
                             </div>
                           </div>
                           <h2 className="place-card__name">
-                            <Link to={`/offer/${card.id}`}>{card.name}</Link>
+                            <Link to={`/offer/${card.id}`}>{card.title}</Link>
                           </h2>
                           <p className="place-card__type">{card.type}</p>
                         </div>
