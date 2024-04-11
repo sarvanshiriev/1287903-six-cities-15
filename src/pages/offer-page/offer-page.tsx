@@ -55,8 +55,8 @@ function OfferPage({ offers, reviews }: OfferPageProps): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {images.map((url, id) => {
-                const keyValue = `${id}-${url}`;
+              {images.map((url, idIMage) => {
+                const keyValue = `${idIMage}-${url}`;
                 return (
                   <div key={keyValue} className="offer__image-wrapper">
                     <img className="offer__image" src={url} alt="Photo studio" />

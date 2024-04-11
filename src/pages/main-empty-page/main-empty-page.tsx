@@ -1,25 +1,8 @@
-import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
-import { useAppSelector } from '../../hooks';
-import Map from '../../components/map/map.tsx';
-import PlaceCardList from '../../components/place-card-list/place-card-list';
-import LocationsList from '../../components/location-list/location-list.tsx';
-import Sort from '../../components/sort/sort.tsx';
-import NavList from '../../components/nav-list/nav-list.tsx';
+import Logo from '../../components/logo/logo';
+import NavList from '../../components/nav-list/nav-list';
 
-type MainPageProps = {
-  citiesList: string[];
-}
-
-function MainPage({ citiesList }: MainPageProps): JSX.Element {
-  const [cardHoverId, setCardHoverId] = useState<string | null>(null);
-  const cityActive = useAppSelector((state) => state.cityActive);
-  const offersActive = useAppSelector((state) => state.offers);
-  const cityMapActive = useAppSelector((state) => state.city);
-  const filteredOffersByCity = offersActive.filter((offer) => offer.city.name === cityActive);
-  const placesCount = filteredOffersByCity.length;
-
+function MainEmptyPage(): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -35,28 +18,59 @@ function MainPage({ citiesList }: MainPageProps): JSX.Element {
           </div>
         </div>
       </header>
-      <main className="page__main page__main--index">
+
+      <main className="page__main page__main--index page__main--index-empty">
         <h1 className="visually-hidden">Cities</h1>
-        <LocationsList cities={citiesList} />
+        <div className="tabs">
+          <section className="locations container">
+            <ul className="locations__list tabs__list">
+              <li className="locations__item">
+                <a className="locations__item-link tabs__item" href="#">
+                  <span>Paris</span>
+                </a>
+              </li>
+              <li className="locations__item">
+                <a className="locations__item-link tabs__item" href="#">
+                  <span>Cologne</span>
+                </a>
+              </li>
+              <li className="locations__item">
+                <a className="locations__item-link tabs__item" href="#">
+                  <span>Brussels</span>
+                </a>
+              </li>
+              <li className="locations__item">
+                <a className="locations__item-link tabs__item">
+                  <span>Amsterdam</span>
+                </a>
+              </li>
+              <li className="locations__item">
+                <a className="locations__item-link tabs__item" href="#">
+                  <span>Hamburg</span>
+                </a>
+              </li>
+              <li className="locations__item">
+                <a className="locations__item-link tabs__item tabs__item--active" href="#">
+                  <span>Dusseldorf</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in {cityActive}</b>
-              <Sort />
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCardList offerList={filteredOffersByCity} setCardHoverId={setCardHoverId} />
+          <div className="cities__places-container cities__places-container--empty container">
+            <section className="cities__no-places">
+              <div className="cities__status-wrapper tabs__content">
+                <b className="cities__status">No places to stay available</b>
+                <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
               </div>
             </section>
-            <div className="cities__right-section">
-              <Map mapType={'cities'} offers={filteredOffersByCity} cardHoverId={cardHoverId} city={cityMapActive} />
-            </div>
+            <div className="cities__right-section"></div>
           </div>
         </div>
       </main>
     </div>
-
   );
 }
 
-export default MainPage;
+export default MainEmptyPage;
