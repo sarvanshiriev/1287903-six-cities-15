@@ -1,6 +1,6 @@
 export type CityMap = {
   title: string;
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
   zoom: number;
 }
