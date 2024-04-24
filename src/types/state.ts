@@ -1,7 +1,7 @@
 import { store } from '../store/index';
 import { Offers, Offer } from './offers';
 import { City } from './city';
-import { SortType } from '../const';
+import { RequestStatus, SortType } from '../const';
 import { Reviews } from './reviews';
 import { AuthorizationStatus } from '../const';
 import { UserLogIn } from './user';
@@ -30,6 +30,7 @@ export type ReviewsProcess = {
   reviews: Reviews;
   reviewsIsLoading: boolean;
   reviewsIsNotFound: boolean;
+  reviewRequestStatus: RequestStatus;
 };
 
 export type NearOffersProcess = {
@@ -41,4 +42,14 @@ export type NearOffersProcess = {
 export type UserProcess = {
   user: UserLogIn | null;
   authorizationStatus: AuthorizationStatus;
+};
+
+export type FavoritesProcess = {
+  favorites: Offers;
+  favoritesIsLoading: boolean;
+  favoritesIsNotFound: boolean;
+};
+
+export type ErrorMessageProcess = {
+  errorMessage: string | null;
 };

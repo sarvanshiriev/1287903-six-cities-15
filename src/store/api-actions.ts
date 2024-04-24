@@ -9,6 +9,10 @@ import { AuthData } from '../types/auth-data';
 import { UserLogIn } from '../types/user';
 import { Reviews, Review } from '../types/reviews';
 import { Comments } from '../types/comments';
+import { FavoriteData } from '../types/favorites';
+import { setFavoriteOffer } from './offer-process/offer-process.slice';
+import { setFavoritesOffers } from './offers-process/offers-process.slice';
+import { setFavoriteNearOffers } from './near-offers-process/near-offers-process.slice';
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch;
@@ -52,14 +56,16 @@ export const fetchNearOffersAction = createAsyncThunk<Offers, number | string | 
       return data;
     });
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<UserLogIn, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
   async (_arg, { extra: api }) => {
-    await api.get(ApiRoute.Login);
+    const { data } = await api.get<UserLogIn>(ApiRoute.Login);
+
+    return data;
   },
 );
 
@@ -69,14 +75,18 @@ export const loginAction = createAsyncThunk<UserLogIn, AuthData, {
   extra: AxiosInstance;
 }>(
   'user/login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data } = await api.post<UserLogIn>(ApiRoute.Login, { email, password });
-    const { token } = data;
+  async ({ email: email, password }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<UserLogIn>(ApiRoute.Login, { email, password });
+      const { token } = data;
 
-    saveToken(token);
-    dispatch(redirectToRoute(AppRoute.Main));
+      saveToken(token);
+      dispatch(redirectToRoute(AppRoute.Main));
 
-    return data;
+      return data;
+    } catch (error) {
+      throw new Error();
+    }
   },
 );
 
@@ -105,7 +115,7 @@ export const fetchReviewsAction = createAsyncThunk<Reviews, number | string | un
     return data;
   });
 
-export const submitCommentAction = createAsyncThunk<Review, Comments, {
+export const submitReviewsAction = createAsyncThunk<Review, Comments, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -117,6 +127,44 @@ export const submitCommentAction = createAsyncThunk<Review, Comments, {
       comment: comment,
       rating: rating,
     });
+    return data;
+  }
+);
+
+export const fetchFavoritesAction = createAsyncThunk<Offers, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavorites',
+  async (_arg, { extra: api }) => {
+
+    try {
+      const { data } = await api.get<Offers>(ApiRoute.Favorite);
+
+      return data;
+
+    } catch (error) {
+      throw new Error();
+    }
+  },
+);
+
+export const setFavoritesAction = createAsyncThunk<Offer, FavoriteData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}
+>(
+  'setFavorites',
+  async (favoriteParams: FavoriteData, { dispatch, extra: api }) => {
+    const { data } = await api.post<Offer>(`${ApiRoute.Favorite}/${favoriteParams.offerId}/${favoriteParams.status}`);
+
+    dispatch(fetchFavoritesAction());
+    dispatch(setFavoriteOffer(data.isFavorite));
+    dispatch(setFavoriteNearOffers(data));
+    dispatch(setFavoritesOffers(data));
+
     return data;
   }
 );
