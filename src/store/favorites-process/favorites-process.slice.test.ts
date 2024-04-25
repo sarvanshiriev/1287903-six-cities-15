@@ -1,51 +1,56 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
+import { fetchFavoritesAction } from '../../store/api-actions';
+import { makeFakeOffers } from '../../utils/mocks';
 import { FavoritesProcess } from '../../types/state';
-import { fetchFavoritesAction, setFavoritesAction } from '../api-actions';
+import { favorites } from './favorites-process.slice';
 
 const initialState: FavoritesProcess = {
   favorites: [],
   favoritesIsLoading: false,
-  favoritesIsNotFound: false,
+  favoritesIsNotFound: false
 };
 
-export const favorites = createSlice({
-  name: NameSpace.Favorites,
-  initialState,
-  reducers: {},
-  extraReducers(builder) {
-    builder
-      .addCase(fetchFavoritesAction.pending, (state) => {
-        state.favoritesIsLoading = true;
-        state.favoritesIsNotFound = false;
-      })
+let state: FavoritesProcess;
 
-      .addCase(fetchFavoritesAction.rejected, (state) => {
-        state.favoritesIsLoading = false;
-        state.favoritesIsNotFound = true;
-      })
+describe('Slice favorites-process', () => {
 
-      .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-        const favoriteOfferData = action.payload;
+  beforeEach(() => {
+    state = { ...initialState };
+  });
 
-        if (favoriteOfferData.length > 0) {
-          state.favorites = favoriteOfferData;
-        } else {
-          state.favoritesIsNotFound = true;
-        }
+  it('should return initial state with empty action', () => {
+    const emptyAction = { type: '' };
+    const expectedState: FavoritesProcess = { ...initialState };
 
-        state.favoritesIsLoading = false;
-      })
+    const result = favorites.reducer(initialState, emptyAction);
 
-      .addCase(setFavoritesAction.fulfilled, (state, action) => {
-        const favoriteOfferData = action.payload;
-        if (favoriteOfferData?.isFavorite) {
-          state.favorites.push(favoriteOfferData);
-        } else {
-          state.favorites = state.favorites.filter(
-            (item) => item.id !== favoriteOfferData.id
-          );
-        }
-      });
-  },
+    expect(result).toEqual(expectedState);
+  });
+
+  it('should return default initial state with empty action and undefined state', () => {
+    const emptyAction = { type: '' };
+    const expectedState: FavoritesProcess = { ...initialState };
+
+    const result = favorites.reducer(undefined, emptyAction);
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('fetchFavoritesAction fulfilled', () => {
+    const fakeFavoritesOffers = makeFakeOffers();
+    const expectedState: FavoritesProcess = { ...initialState, favorites: fakeFavoritesOffers };
+
+    const result = favorites.reducer(state, { type: fetchFavoritesAction.fulfilled.type, payload: fakeFavoritesOffers, });
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('fetchFavoritesAction rejected', () => {
+    const expectedState: FavoritesProcess = { ...initialState, favoritesIsLoading: false, favoritesIsNotFound: true };
+    const actualState: FavoritesProcess = { ...initialState, favoritesIsLoading: true, favoritesIsNotFound: false };
+
+    const result = favorites.reducer(actualState, { type: fetchFavoritesAction.rejected.type });
+
+    expect(result).toEqual(expectedState);
+  });
+
 });

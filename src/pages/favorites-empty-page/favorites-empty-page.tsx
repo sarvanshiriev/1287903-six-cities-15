@@ -2,11 +2,10 @@ import { Helmet } from 'react-helmet-async';
 
 function FavoritesEmptyPage(): JSX.Element {
   return (
-    <div>
+    < >
       <Helmet>
         <title>Six cities. Favorites.</title>
       </Helmet>
-
       <main className="page__main page__main--favorites page__main--favorites-empty">
         <div className="page__favorites-container container">
           <section className="favorites favorites--empty">
@@ -20,7 +19,7 @@ function FavoritesEmptyPage(): JSX.Element {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

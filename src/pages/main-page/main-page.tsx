@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks';
 import { AppRoute } from '../../const';
 import Map from '../../components/map/map.tsx';
 import PlaceCardList from '../../components/place-card-list/place-card-list';
-import LocationsList from '../../components/locations-list/locations-list';
+import LocationsList from '../../components/location-list/location-list.tsx';
 import Sort from '../../components/sort/sort';
 import NavList from '../../components/nav-list/nav-list';
 import Spinner from '../../components/spinner/spinner';
@@ -65,7 +65,6 @@ function MainPage(): JSX.Element {
         )}
       </main>
     </div>
-
   );
 }
 
