@@ -6,7 +6,7 @@ import { store } from './store';
 import { fetchOffersAction, checkAuthAction } from './store/api-actions';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchFavoritesAction } from './store/api-actions';
-import HistoryRouter from './components/history-router/history-router';
+import HistoryRouter from './components/history-route/history-router';
 import browserHistory from './browser-history';
 import ErrorMessage from './components/error-message/error-message';
 

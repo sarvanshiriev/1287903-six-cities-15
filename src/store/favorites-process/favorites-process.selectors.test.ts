@@ -1,4 +1,3 @@
-
 import { makeFakeOffers } from '../../utils/mocks';
 import { NameSpace } from '../../const';
 import { FavoritesProcess } from '../../types/state';

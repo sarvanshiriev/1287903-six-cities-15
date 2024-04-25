@@ -1,4 +1,3 @@
-
 import { CityMap } from './types/city-map';
 import { CityList, City } from './types/city';
 
